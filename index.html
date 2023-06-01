@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        #map {
+            width: 800px;
+            height: 800px;
+            object-fit: contain;
+            background-image: url('indian-map.png'); /* Replace with your map image */
+            background-size: cover;
+            position: relative;
+        }
+
+        .place-label {
+            position: absolute;
+            font-weight: bold;
+            animation: fade-in 1s ease-in-out;
+        }
+
+        h1{
+            text-align: center;
+            color: aquamarine;
+        }
+
+        @keyframes fade-in {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+    </style>
+
+</head>
+<body>
+    <h1>Indian-Map</h1>
+    
+    <!-- search bar -->
+    <input type="text" id="search" placeholder="Search for a place" >
+    <button onclick="search()">Search</button>
+    <br>
+    <div id="map"></div>
+
+    <script>
+        alert("NOte - location may not be accurate. it's just demo of indian map");
+        const places = [
+            { name: "Delhi", position: { left: 400, top: 300 } },
+            { name: "Mumbai", position: { left: 500, top: 400 } },
+            { name: "Kolkata", position: { left: 600, top: 300 } },
+            { name: "Chennai", position: { left: 700, top: 400 } },
+            { name: "Bangalore", position: { left: 600, top: 500 } }
+        ];
+
+        function search() {
+            const searchTerm = document.getElementById("search").value;
+            const place = places.find(p => p.name.toLowerCase() === searchTerm.toLowerCase());
+
+            if (place) {
+                const map = document.getElementById("map");
+
+                // Clear existing labels
+                const existingLabels = document.getElementsByClassName("place-label");
+                while (existingLabels.length > 0) {
+                    existingLabels[0].parentNode.removeChild(existingLabels[0]);
+                }
+
+                // Create label for the selected place
+                const label = document.createElement("div");
+                label.className = "place-label";
+                label.style.left = place.position.left + "px";
+                label.style.top = place.position.top + "px";
+                label.textContent = place.name;
+                map.appendChild(label);
+
+                // Highlight the selected place (you can customize the style)
+                map.style.border = "2px solid red";
+                map.style.boxShadow = "0 0 5px 2px red";
+
+                // Scroll to the selected place
+                map.scrollIntoView({ behavior: "smooth", block: "center", inline: "center" });
+            }
+        }
+    </script>
+</body>
+</html>
